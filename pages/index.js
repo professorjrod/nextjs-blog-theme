@@ -1,12 +1,23 @@
 import Link from 'next/link';
 import { getPosts } from '../utils/mdx-utils';
-
+// You can also use ESM `import * as Sentry from "@sentry/node"` instead of `require`
+const Sentry = require('@sentry/node');
+import { ProfilingIntegration } from '@sentry/profiling-node';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Layout, { GradientBackground } from '../components/Layout';
 import ArrowIcon from '../components/ArrowIcon';
 import { getGlobalData } from '../utils/global-data';
 import SEO from '../components/SEO';
+
+Sentry.init({
+  dsn: 'https://5dec4a982167aee0cba49fc56792d3bc@o4506867582304256.ingest.us.sentry.io/4506867588661248',
+  integrations: [new ProfilingIntegration()],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  profilesSampleRate: 1.0,
+});
 
 export default function Index({ posts, globalData }) {
   return (
