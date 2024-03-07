@@ -28,11 +28,6 @@ const components = {
   Head,
 };
 
-const transaction = Sentry.startTransaction({
-  op: 'test',
-  name: 'My First Test Transaction',
-});
-
 export default function PostPage({
   source,
   frontMatter,
@@ -49,15 +44,9 @@ export default function PostPage({
       <Header name={globalData.name} />
       <button
         style={{ color: '#fff', borderColor: '#00f' }}
-        onClick={setTimeout(() => {
-          try {
-            foo();
-          } catch (e) {
-            Sentry.captureException(e);
-          } finally {
-            transaction.finish();
-          }
-        }, 99)}
+        onClick={() => {
+          throw new Error('broken');
+        }}
       >
         Click for an error
       </button>
